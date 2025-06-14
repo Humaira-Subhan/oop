@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace oop
 {
@@ -55,7 +56,11 @@ namespace oop
 
         private void Form4_Load(object sender, EventArgs e)
         {
-
+            panel4.Left = (this.ClientSize.Width - panel4.Width) / 2;
+            panel4.Top = (this.ClientSize.Height - panel4.Height) / 2;
+            this.Size = new Size(1024, 700);
+            this.MaximumSize = new Size(1024, 700);
+            this.MinimumSize = new Size(1024, 700);
         }
 
         private void txtConfirmPassword_TextChanged(object sender, EventArgs e)
@@ -140,7 +145,7 @@ namespace oop
 
             DateTime dob = dateTimePicker1.Value;
             string contactNo = txtContact.Text.Trim();
-            string cnic = txtCNIC.Text.Trim();
+            string cnic = textBox1.Text.Trim();
 
         
             string province = textBox9.Text.Trim();
@@ -171,25 +176,85 @@ namespace oop
             }
             string transportAssetsStr = string.Join(",", transportAssets);
 
-            // === VALIDATION ===
+            
             if (string.IsNullOrWhiteSpace(firstName) || string.IsNullOrWhiteSpace(lastName) || string.IsNullOrWhiteSpace(ageText) ||
-                string.IsNullOrWhiteSpace(gender) || !literate || string.IsNullOrWhiteSpace(contactNo) || string.IsNullOrWhiteSpace(cnic) ||
-                string.IsNullOrWhiteSpace(province) || string.IsNullOrWhiteSpace(city) || string.IsNullOrWhiteSpace(district) ||
-                string.IsNullOrWhiteSpace(postalCode) || string.IsNullOrWhiteSpace(permanentAddress) || string.IsNullOrWhiteSpace(currentAddress) ||
-                string.IsNullOrWhiteSpace(familyText) || string.IsNullOrWhiteSpace(religion) || string.IsNullOrWhiteSpace(residenceType) ||
-                incomeSources.Count == 0 || string.IsNullOrWhiteSpace(monthlyIncome) || transportAssets.Count == 0)
+          string.IsNullOrWhiteSpace(gender) || !literate || string.IsNullOrWhiteSpace(contactNo) || string.IsNullOrWhiteSpace(cnic) ||
+          string.IsNullOrWhiteSpace(province) || string.IsNullOrWhiteSpace(city) || string.IsNullOrWhiteSpace(district) ||
+          string.IsNullOrWhiteSpace(postalCode) || string.IsNullOrWhiteSpace(permanentAddress) || string.IsNullOrWhiteSpace(currentAddress) ||
+          string.IsNullOrWhiteSpace(familyText) || string.IsNullOrWhiteSpace(religion) || string.IsNullOrWhiteSpace(residenceType) ||
+          incomeSources.Count == 0 || string.IsNullOrWhiteSpace(monthlyIncome) || transportAssets.Count == 0)
             {
                 MessageBox.Show("Please fill in all required fields and make at least one selection where needed.", "Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
 
-            if (!int.TryParse(ageText, out int age) || !int.TryParse(familyText, out int familyMembers))
+            if (!firstName.All(char.IsLetter))
             {
-                MessageBox.Show("Age and Family Members must be valid numbers.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("First Name must contain only alphabets.", "Invalid First Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            // === DATABASE CONNECTION ===
+            if (!lastName.All(char.IsLetter))
+            {
+                MessageBox.Show("Last Name must contain only alphabets.", "Invalid Last Name", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (!province.All(char.IsLetter))
+            {
+                MessageBox.Show("Province must contain only alphabets.", "Invalid Province", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (!city.All(char.IsLetter))
+            {
+                MessageBox.Show("City must contain only alphabets.", "Invalid City", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (!district.All(char.IsLetter))
+            {
+                MessageBox.Show("District must contain only alphabets.", "Invalid District", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (!int.TryParse(ageText, out int age) || age <= 0)
+            {
+                MessageBox.Show("Age must be a valid positive number.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (!int.TryParse(familyText, out int familyMembers) || familyMembers < 1)
+            {
+                MessageBox.Show("Family Members must be a valid positive number.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (!decimal.TryParse(monthlyIncome, out decimal monthlyIncomeValue) || monthlyIncomeValue < 0)
+            {
+                MessageBox.Show("Monthly Income must be a valid non-negative number.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (!postalCode.All(char.IsDigit))
+            {
+                MessageBox.Show("Postal Code must be numeric.", "Invalid Postal Code", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (cnic.Length != 13 || !cnic.All(char.IsDigit))
+            {
+                MessageBox.Show("CNIC must be exactly 13 numeric digits.", "Invalid CNIC", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (contactNo.Length != 11 || !contactNo.All(char.IsDigit))
+            {
+                MessageBox.Show("Contact number must be exactly 11 numeric digits.", "Invalid Contact No", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+
             string connStr = "server=localhost;user=root;password=humaira123;database=OOP";
             using (MySqlConnection conn = new MySqlConnection(connStr))
             {
@@ -264,6 +329,7 @@ namespace oop
         private void button2_Click(object sender, EventArgs e)
         {
             Form3 n = new Form3();
+            this.Hide();
             n.Show();
         }
 
@@ -288,6 +354,11 @@ namespace oop
         }
 
         private void panel11_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label39_Click(object sender, EventArgs e)
         {
 
         }

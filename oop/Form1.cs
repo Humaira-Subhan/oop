@@ -1,13 +1,8 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Data.SqlClient;
+
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 using System.Drawing.Drawing2D;
@@ -19,6 +14,7 @@ namespace oop
         public Login()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
         }
         
         private void textBox3_TextChanged(object sender, EventArgs e)
@@ -28,13 +24,26 @@ namespace oop
 
         private void Login_Load(object sender, EventArgs e)
         {
-            
+            this.Size = new Size(1024, 700);
+            this.MaximumSize = new Size(1024, 700);
+            this.MinimumSize = new Size(1024, 700);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            string username = txtUsername.Text;
+            string username = txtUsername.Text.Trim();
             string password = txtPassword.Text;
+
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            {
+                MessageBox.Show("Please enter both username and password.");
+                return;
+            }
+            if (password.Length < 8)
+            {
+                MessageBox.Show("Password must be at least 8 characters long.");
+                return;
+            }
             MySqlConnection conn = new MySqlConnection("server=localhost;uid=root;pwd=humaira123;database=oop;");
             {
                 conn.Open();
@@ -46,9 +55,9 @@ namespace oop
                 MySqlDataReader reader = cmd.ExecuteReader();
                 if (reader.HasRows)
                 {
-                    MessageBox.Show("Login successful!");
+                   
                     this.Hide();
-                    new Form3().Show(); 
+                    new Form3().Show();
                 }
                 else
                 {
@@ -56,7 +65,7 @@ namespace oop
                 }
             }
 
-           
+
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
@@ -84,6 +93,7 @@ namespace oop
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Form8 n = new Form8();
+            this.Hide();
             n.Show();
         }
     }

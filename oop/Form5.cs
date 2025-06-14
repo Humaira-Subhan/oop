@@ -25,7 +25,9 @@ namespace oop
 
         private void Form5_Load(object sender, EventArgs e)
         {
-
+            this.Size = new Size(1024, 700);
+            this.MaximumSize = new Size(1024, 700);
+            this.MinimumSize = new Size(1024, 700);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -33,6 +35,16 @@ namespace oop
             
             string username = txtUsername.Text.Trim();
             string password = txtPassword.Text;
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            {
+                MessageBox.Show("Please enter both username and password.");
+                return;
+            }
+            if (password.Length < 8)
+            {
+                MessageBox.Show("Password must be at least 8 characters long.");
+                return;
+            }
 
             string connStr = "server=localhost;user=root;password=humaira123;database=OOP;";
 
@@ -54,12 +66,14 @@ namespace oop
                         {
                             
                             Form7 adminPage = new Form7();
+                            this.Hide();
                             adminPage.Show();
                         }
                         else
                         {
                          
-                            Form6 userPage = new Form6(username); 
+                            Form6 userPage = new Form6(username);
+                            this.Hide();
                             userPage.Show();
                         }
 
@@ -79,6 +93,10 @@ namespace oop
             }
         }
 
+        private void panel3_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }
 

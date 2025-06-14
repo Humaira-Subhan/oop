@@ -102,8 +102,14 @@ namespace oop
 
         private void Form6_Load(object sender, EventArgs e)
         {
+
             MakeFieldsReadOnly();
             LoadUserData();
+            panel1.Left = (this.ClientSize.Width - panel1.Width) / 2;
+            panel1.Top = (this.ClientSize.Height - panel1.Height) / 2;
+            this.Size = new Size(1024, 700);
+            this.MaximumSize = new Size(1024, 700);
+            this.MinimumSize = new Size(1024, 700);
         }
 
         private void textBox5_TextChanged(object sender, EventArgs e)
@@ -154,6 +160,7 @@ namespace oop
         private void button2_Click(object sender, EventArgs e)
         {
             Form3 n = new Form3();
+            this.Hide();
             n.Show();
         }
 

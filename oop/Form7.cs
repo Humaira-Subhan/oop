@@ -43,6 +43,11 @@ namespace oop
         private void Form7_Load(object sender, EventArgs e)
         {
             LoadAllData();
+            panel2.Left = (this.ClientSize.Width - panel2.Width) / 2;
+            panel2.Top = (this.ClientSize.Height - panel2.Height) / 2;
+            this.Size = new Size(1024, 700);
+            this.MaximumSize = new Size(1024, 700);
+            this.MinimumSize = new Size(1024, 700);
         }
 
         private void panel1_Paint(object sender, PaintEventArgs e)
@@ -133,7 +138,7 @@ namespace oop
 
                         cmd.ExecuteNonQuery();
                         MessageBox.Show("Record updated successfully.");
-                        LoadAllData(); // Refresh the DataGridView
+                        LoadAllData(); 
                     }
                     catch (Exception ex)
                     {
@@ -168,7 +173,7 @@ namespace oop
                             cmd.ExecuteNonQuery();
 
                             MessageBox.Show("Record deleted successfully.");
-                            LoadAllData(); // Refresh the table
+                            LoadAllData(); 
                         }
                         catch (Exception ex)
                         {
@@ -186,7 +191,13 @@ namespace oop
         private void button3_Click(object sender, EventArgs e)
         {
             Form3 n = new Form3();
+            this.Hide();
             n.Show();
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

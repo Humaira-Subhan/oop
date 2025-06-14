@@ -20,7 +20,9 @@ namespace oop
        
         private void Form2_Load(object sender, EventArgs e)
         {
-           
+            this.Size = new Size(1024, 768);
+            this.MaximumSize = new Size(1024, 768);
+            this.MinimumSize = new Size(1024, 768);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -29,6 +31,23 @@ namespace oop
             string email = txtEmail.Text;
             string password = txtPassword.Text;
             string confirmPassword = txtConfirmPassword.Text;
+
+            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(email) ||
+                string.IsNullOrEmpty(password) || string.IsNullOrEmpty(confirmPassword))
+            {
+                MessageBox.Show("Please fill in all fields.");
+                return;
+            }
+            if (!email.EndsWith("@gmail.com"))
+            {
+                MessageBox.Show("Email must be a valid Gmail address ending with @gmail.com.");
+                return;
+            }
+            if (password.Length < 8)
+            {
+                MessageBox.Show("Password must be at least 8 characters long.");
+                return;
+            }
 
             if (password != confirmPassword)
             {
@@ -49,7 +68,7 @@ namespace oop
                 try
                 {
                     cmd.ExecuteNonQuery();
-                    MessageBox.Show("Signup successful! You can now log in.");
+ 
                     this.Hide();
                     new Login().Show(); 
                 }
@@ -64,6 +83,13 @@ namespace oop
         private void textBox7_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            Login login = new Login();
+            this.Hide();
+            login.Show();
         }
     }
 }

@@ -16,6 +16,10 @@ namespace oop
         public Form3()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
+            this.Size = new Size(1024, 700); 
+            this.MaximumSize = new Size(1024, 700);
+            this.MinimumSize = new Size(1024, 700);
         }
      
         private MySqlConnection GetConnection()
@@ -24,7 +28,7 @@ namespace oop
             return new MySqlConnection(connStr);
         }
 
-        // Dashboard data loader
+        
         private void LoadDashboardData()
         {
             
@@ -127,6 +131,10 @@ namespace oop
         private void Form3_Load(object sender, EventArgs e)
         {
             LoadDashboardData();
+           
+           
+            mainPanel.Left = (this.ClientSize.Width - mainPanel.Width) / 2;
+            mainPanel.Top = (this.ClientSize.Height - mainPanel.Height) / 2;
         }
 
         private void panel2_Paint(object sender, PaintEventArgs e)
@@ -137,7 +145,13 @@ namespace oop
         private void button3_Click(object sender, EventArgs e)
         {
             Form5 n = new Form5();
+            this.Hide();
             n.Show();
+        }
+
+        private void label11_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
